@@ -13,12 +13,16 @@
       padding: 0;
       color: #333;
       background-color: #f4f4f4;
+      scroll-behavior: smooth;
     }
     header {
       background-color: #333;
       color: white;
       padding: 1rem 0;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     header nav a {
       color: white;
@@ -45,6 +49,23 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       width: 200px;
       text-align: center;
+    }
+    .upload-photo {
+      margin-top: 2rem;
+    }
+    .photo-preview {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .photo-preview img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     footer {
       background-color: #333;
@@ -116,6 +137,15 @@
     </div>
   </section>
 
+  <!-- Photo Upload Section -->
+  <section id="photo-upload">
+    <h2>Upload a Photo</h2>
+    <div class="upload-photo">
+      <input type="file" id="photoInput" accept="image/*" multiple>
+      <div class="photo-preview" id="photoPreview"></div>
+    </div>
+  </section>
+
   <!-- Contact Section -->
   <section id="contact">
     <h2>Contact Me</h2>
@@ -131,5 +161,24 @@
   <footer>
     <p>&copy; 2024 Your Name. All Rights Reserved.</p>
   </footer>
+
+  <script>
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+
+    photoInput.addEventListener('change', () => {
+      photoPreview.innerHTML = '';
+      const files = photoInput.files;
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          photoPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
 </body>
 </html>
